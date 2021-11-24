@@ -442,11 +442,9 @@ int main(int argc, char const *argv[])
 			// debug(ans);
 			ans = max(ans , j - lowPointer + 1);
 		}
-
 		cout << endl << ans << " is max no of ones " << endl;
 
 	*/
-
 
 // max non reapeating substring in string's length
 
@@ -465,38 +463,11 @@ int main(int argc, char const *argv[])
 
 			lastPositionOccured[currChar - 'a'] = i;
 			ans = max(ans , i - start );
-
-
 		}
 
 		cout << endl << " max len : " << ans << endl;
 
 		*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 	return 0;
 }

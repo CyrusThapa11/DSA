@@ -162,13 +162,14 @@ node* inorderSuccessor(node*root) {
 node* deleteFromBST(node*root , int dataa) {
 
 	if (root == NULL)return NULL ;
-
+	// 2 checks for false case
 	if (root->data < dataa)
 		root->right = deleteFromBST(root->right , dataa);
 	else if (root->data > dataa)
 		root->left = deleteFromBST(root->left , dataa);
 	else {
 
+		// 2 checks for NULL case :
 		if (root->left == NULL) {
 			node*temp = root->right;
 			free(root);
@@ -184,7 +185,7 @@ node* deleteFromBST(node*root , int dataa) {
 		root->data = replaceableNode->data;
 		root->right = deleteFromBST( root->right , root->data );
 	}
-
+	// return new / old root as depends
 	return root;
 }
 
@@ -684,7 +685,6 @@ void printZigZac(node* root ) {
 			cout << endl;
 			q.push(NULL);
 		}
-
 	}
 
 	return;
@@ -790,17 +790,11 @@ node* buildTreeInAndPostorder(int *postorder , int *inorder , int start , int en
 }
 
 int main(int argc, char const * argv[]) {
-
 	/*
-
 		preorder - root -> left -> right
 		inorder - left -> root -> right
 		postorder - left -> right -> root
-
-
 	*/
-
-
 	//  ROOT
 
 	node * root = new node(10);
@@ -932,7 +926,9 @@ int main(int argc, char const * argv[]) {
 	//
 	cout << endl;
 	inorderr(root5);
+	deleteFromBST(root5, 60);
 
+	inorderr(root5);
 	cout << endl;
 
 	// node * root_ = deleteFromBST(root5 , 56);
@@ -998,8 +994,6 @@ int main(int argc, char const * argv[]) {
 	restoreBST(root9);
 	inorderr(root9);
 	cout << endl;
-
-
 
 	return 0;
 }

@@ -2,7 +2,6 @@
 using namespace std;
 
 class node {
-
 public:
 	int data;
 	node* left;
@@ -13,8 +12,6 @@ public:
 		left = NULL;
 		right = NULL;
 	}
-	~node();
-
 };
 
 int maxPathUtil(node*root , int*ans ) {
@@ -130,7 +127,7 @@ void flattenBTree2(node*root) {
 }
 
 // THE ALGO GIVEN BUT THIS WAS NOT STATED !
-
+// this is tree into preorder dll
 void flattenBTree(node*root) {
 	if ((root->left == NULL && root->right == NULL ) || root == NULL )return ;
 
@@ -345,7 +342,7 @@ int sumOfTotalNodes(node*root) {
 
 // SUM AT LEVEL K
 
-int sumAtKthLevel(node*root, int level) {
+int sumAtKthLevel(node  *root, int level) {
 
 	int sum = 0;
 	int k = 1;
@@ -381,7 +378,6 @@ int sumAtKthLevel(node*root, int level) {
 // LEVEL ORDER TRAVERSAL
 
 void printLevelOrder(node * root) {
-
 	if (root == NULL)return;
 
 	queue<node*>q;
@@ -406,6 +402,7 @@ void printLevelOrder(node * root) {
 			q.push(NULL);
 		}
 	}
+	return;
 }
 
 // PREORDER PRINT
@@ -423,7 +420,6 @@ void preorderr(node * root) {
 
 void postorderr(node * root) {
 	if (root == NULL)return;
-
 
 	postorderr(root -> left);
 	postorderr(root -> right);
@@ -450,7 +446,6 @@ void inorderr(node * root) {
 
 node* buildTreeInAndPreorder(int *preorder , int *inorder , int start , int end) {
 	if (start > end)return NULL;
-
 	static int index = 0;
 
 	int curr = preorder[index];
@@ -459,9 +454,7 @@ node* buildTreeInAndPreorder(int *preorder , int *inorder , int start , int end)
 	// cout << " making node data - " << n->data << " " << endl;
 
 	if (start == end)return n;
-
 	int pos  ;
-
 
 	for (int i = start ; i <= end ; i++)
 		if (curr == inorder[i] ) {
@@ -474,10 +467,8 @@ node* buildTreeInAndPreorder(int *preorder , int *inorder , int start , int end)
 
 	// if (! (n->left == NULL))
 	// 	cout << " left subt " << n->left->data << " & ";
-
 	// if (!(n->right == NULL))
 	// 	cout << " right subt " << n->right->data << " ";
-
 	return n;
 }
 
@@ -505,6 +496,103 @@ node* buildTreeInAndPostorder(int *postorder , int *inorder , int start , int en
 	n->left = buildTreeInAndPostorder( postorder, inorder  , start , pos - 1 );
 
 	return n;
+}
+
+int diameterOpt( node *root , int &h ) {
+	// cout << "hi";
+	if (root == NULL) {
+		h = 0;
+		return 0;
+	}
+
+	int leftH = 0, rightH = 0;
+	int leftdia = diameterOpt(root->left, leftH );
+	int rightdia = diameterOpt(root->right, rightH	);
+
+	h = max(leftH, rightH) + 1 ;
+
+	return max( leftH + rightH + 1, max(leftdia, rightdia));
+}
+
+
+bool HeightBalanced(node* root, int &height) {
+
+	if (root == NULL) {
+		height = 0;
+		return true;
+	}
+
+	int leftH = 0, rightH = 0;
+	bool leftSubTree = HeightBalanced(root->left, leftH);
+	bool rightSubTree = HeightBalanced(root->right, rightH);
+	height = max(leftH, rightH) + 1;
+
+	if (leftSubTree && rightSubTree && ( abs(leftH - rightH) <= 1 )) {
+		return true;
+	}
+	// cout << root->data << "\n";
+	return false;
+}
+
+node* lca(node*root, int data1, int data2) {
+
+	if (root == NULL)return NULL;
+	if (root->data == data1 || root->data == data2)return root;
+
+	node* foundLeft;
+	node* foundRight;
+
+	foundLeft = lca(root->left, data1, data2);
+	foundRight = lca(root->right, data1, data2);
+
+	if (foundLeft != NULL && foundRight != NULL ) {
+		return root;
+	} else if (foundLeft != NULL)return foundLeft;
+	else if (foundRight != NULL)return foundRight;
+
+	return NULL;
+}
+
+int distanceNodes(node*root, int data1, int data2) {
+	if (root == NULL)return 0;
+	if (root->data == data1 || root->data == data2)return 1;
+
+	int foundLeft;
+	int foundRight;
+
+	foundLeft = distanceNodes(root->left, data1, data2);
+	foundRight = distanceNodes(root->right, data1, data2);
+
+	if (foundLeft  && foundRight  ) {
+		return foundLeft + foundRight;
+	} else if (foundLeft )return foundLeft + 1;
+	else if (foundRight )return foundRight + 1;
+
+	return 0;
+}
+
+void treeTODll(node* root, node*&head, node*& tail) {
+
+	if (root == NULL)return;
+
+	node*Left, *Right ;
+	Left = root->left;
+	Right = root->right;
+
+	treeTODll(root->left, head, tail);
+
+	if (head == NULL) {
+		height = root;
+		return;
+	}
+
+	root->left = tail;
+
+	tail = root;
+	if (tail != NULL)
+		tail->right = root;
+
+	treeTODll(root->right, head, tail);
 }
 
 int main(int argc, char const * argv[]) {
@@ -565,10 +653,14 @@ int main(int argc, char const * argv[]) {
 	root4->left->left = new node(400);
 	root4->left->right = new node(500);
 
+
 	root4->right->left = new node(700);
 	root4->right->right = new node(800);
+	root4->right->left->left = new node(790);
 
+	root4->left->right->right = new node(690);
 	root4->left->left->left = new node(760);
+	root4->left->left->right = new node(960);
 	root4->left->left->left->right = new node(860);
 
 	printLevelOrder(root4);
@@ -581,7 +673,7 @@ int main(int argc, char const * argv[]) {
 	// cout << "height " << height(root4) << endl;
 
 	// cout << "diaMeter " << diaMeter(root4) << endl;
-	int h = 0;
+	// int h = 0;
 	// cout << "diaMeter opt " << diaMeterOptimized(root4, &h) << endl;
 
 	// sumReplace(root4);
@@ -593,7 +685,7 @@ int main(int argc, char const * argv[]) {
 	// cout << "isHeightBalanced " << isHeightBalanced(root4, &h)  << endl;
 
 	// printRightView(root4);
-	cout << endl;
+	// cout << endl;
 
 	// printLeftView(root4);
 	// cout << endl;
@@ -605,13 +697,51 @@ int main(int argc, char const * argv[]) {
 	// cout << distanceBwNodes(root4, 800, 860) << endl;
 
 	// flattenBTree2(root4);
-	cout << endl;
-	preorderr(root4);
-	cout << endl;
-	int n = kDistantNodes(root4, 200 , 3);
-	cout << endl;
+	// cout << endl;
+	// preorderr(root4);
+	// cout << endl;
+	// int n = kDistantNodes(root4, 200 , 3);
+	// cout << endl;
 
-	cout << "max sum path :" << maxPath(root1);
+	// cout << "max sum path :" << maxPath(root1) << "\n";
+
+	//-------------------------------------------
+
+	// height and diameter:
+
+	node*root5 = new node(-100);
+
+	root5->left = new node(-200);
+	root5->right = new node(300);
+
+	root5->left->left = new node(400);
+	root5->left->right = new node(-500);
+
+	root5->right->left = new node(700);
+	root5->right->right = new node(-800);
+
+	// root5->left->left->left = new node(760);
+	// root5->left->left->left->right = new node(-860);
+	// int heightt = 0;
+
+	// cout << endl;
+	// printLevelOrder(root5);
+	// cout << " \ndiameter - ";
+	// cout << diameterOpt(root5, heightt) << "\n" ;
+	// heightt = 0;
+	// cout << "HeightBalanced - " << (HeightBalanced(root5, heightt) ) << "\n" ;
+
+
+	// node*LCA = lca(root4, 400, 800);
+	// cout << "lca is : " << LCA->data << "\n";
+
+	// int distance  = distanceNodes(root4, 790, 760);
+	// cout << "distance is " << distance << '\n';
+
+	node*head = NULL, *tail = NULL;
+	treeTODll(root5, head, tail);
+
+
 
 
 	return 0;

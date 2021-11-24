@@ -1,8 +1,17 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class node {
+void fastInput() {
+	ios_base::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+#ifndef ONLINE_JUDGE
+	freopen("input.txt", "r", stdin);
+	freopen("output.txt", "w", stdout);
+	freopen("error.txt", "w", stderr);
+#endif
+}
 
+
+class node {
 public:
 	int data;
 	node* left;
@@ -13,9 +22,43 @@ public:
 		left = NULL;
 		right = NULL;
 	}
-	~node();
-
 };
+
+class genNode {
+public:
+	int data;
+	vector<genNode*> children;
+	genNode(int d) {
+		this->data = d;
+	}
+};
+
+void printLevelOrder(node * root) {
+	if (root == NULL)return;
+	queue<node*>q;
+
+	q.push(root);
+	q.push(NULL);
+
+	while (!q.empty()) {
+
+		node* currNode = q.front();
+		q.pop();
+
+		if (currNode != NULL) {
+			cout << currNode->data << " ";
+			if (currNode->left)
+				q.push(currNode->left);
+			if (currNode->right)
+				q.push(currNode->right);
+		}
+		else if (currNode == NULL && (!q.empty())) {
+			cout << endl;
+			q.push(NULL);
+		}
+	}
+}
+
 
 int catalan( int n ) {
 	if (n <= 1)return 1;
@@ -240,6 +283,49 @@ void flattenBTree(node*root) {
 	}
 
 	flattenBTree(root->right);
+
+	return;
+}
+
+
+
+void flattenBTree_(node*root) {
+	// cout << "\nroot->data" << root->data << '\n';
+	if (root == NULL || ( root->left == NULL && root->right == NULL))return;
+
+	if (root->left == NULL && root->right != NULL) {
+		flattenBTree_(root->right);
+		return;
+	} else if (root->left != NULL && root->right == NULL) {
+		flattenBTree_(root->left);
+		root->right = root->left;
+		root->left = NULL;
+		return;
+	}
+
+	flattenBTree_(root->left);
+	flattenBTree_(root->right);
+
+	node* tempRight = root->right;
+
+	node *leftTail = NULL;
+	leftTail = root->left;
+	while (leftTail->right != NULL) {
+		leftTail = leftTail->right;
+	}
+
+	leftTail->right = tempRight;
+	root->right = root->left;
+	root->left = NULL;
+
+	return;
+
+}
+
+void flattenBTree_Helper(node*root) {
+	cout << "hi\n";
+	flattenBTree_( root);
+	printLevelOrder(root);
 
 	return;
 }
@@ -469,33 +555,6 @@ int sumAtKthLevel(node*root, int level) {
 
 // LEVEL ORDER TRAVERSAL
 
-void printLevelOrder(node * root) {
-
-	if (root == NULL)return;
-
-	queue<node*>q;
-
-	q.push(root);
-	q.push(NULL);
-
-	while (!q.empty()) {
-
-		node* currNode = q.front();
-		q.pop();
-
-		if (currNode != NULL) {
-			cout << currNode->data << " ";
-			if (currNode->left)
-				q.push(currNode->left);
-			if (currNode->right)
-				q.push(currNode->right);
-		}
-		else if (currNode == NULL && (!q.empty())) {
-			cout << endl;
-			q.push(NULL);
-		}
-	}
-}
 
 // PREORDER PRINT
 
@@ -575,6 +634,8 @@ node* buildTreeInAndPreorder(int *preorder , int *inorder , int start , int end)
 node* buildTreeInAndPostorder(int *postorder , int *inorder , int start , int end) {
 	if (start > end)return NULL;
 
+	// this may or may not work if there are multiple test cases in 1 test case !!
+	// the index will keep on decreasing and be < 0 !! so runtime error might o/c
 	static int index = 4;
 
 	int curr = postorder[index];
@@ -596,8 +657,45 @@ node* buildTreeInAndPostorder(int *postorder , int *inorder , int start , int en
 	return n;
 }
 
-int main(int argc, char const * argv[]) {
+void printGenTree(genNode*root) {
 
+	cout << root->data << "\n";
+	for (int i = 0 ; i < root->children.size(); i++) {
+		cout << root->children[i]->data << " ";
+	}
+
+}
+
+void makeGenTree( genNode*root ) {
+
+	stack<genNode*>st_;
+	int n;
+	cin >> n;
+	root = new genNode(n);
+	st_.push(root);
+
+	while (!st_.empty()) {
+
+		genNode* currNode = st_.top();
+
+		int num;
+		cin >> num;
+		if (num != -1) {
+			genNode* child = new genNode(num);
+			currNode->children.push_back(child);
+			st_.push(child);
+		} else {
+			st_.pop();
+		}
+	}
+
+	printGenTree(root);
+
+// 	cout << n;
+}
+
+int main(int argc, char const * argv[]) {
+	fastInput();
 	/*
 
 		preorder - root -> left -> right
@@ -607,38 +705,38 @@ int main(int argc, char const * argv[]) {
 
 	*/
 
-	node * root = new node(10);
+	// node * root = new node(10);
 
-	root->left = new node(20);
-	root->right = new node(30);
+	// root->left = new node(20);
+	// root->right = new node(30);
 
-	root->left->left = new node(-40);
-	root->left->right = new node(-50);
+	// root->left->left = new node(-40);
+	// root->left->right = new node(-50);
 
-	root->right->left = new node(70);
-	root->right->right = new node(80);
+	// root->right->left = new node(70);
+	// root->right->right = new node(80);
 
-	node * root1 = new node(1);
+	// node * root1 = new node(1);
 
-	root1->left = new node(2);
-	root1->right = new node(3);
+	// root1->left = new node(2);
+	// root1->right = new node(3);
 
-	root1->left->left = new node(4);
-	root1->left->right = new node(-5);
+	// root1->left->left = new node(4);
+	// root1->left->right = new node(-5);
 
-	root1->right->left = new node(9);
-	root1->right->right = new node(5);
+	// root1->right->left = new node(9);
+	// root1->right->right = new node(5);
 
 	// root->left->left->left = new node(540);
 	// root->left->left->right = new node(750);
 
 
-	node * root2 = NULL ;
-	node * root3 = NULL ;
+	// node * root2 = NULL ;
+	// node * root3 = NULL ;
 
-	int preorder[] = { 1, 2, 4 , 3 , 5 };
-	int inorder[] = { 4 , 2 , 1 , 5 , 3 };
-	int postorder[] = { 4 , 2 , 5 , 3 , 1 };
+	// int preorder[] = { 1, 2, 4 , 3 , 5 };
+	// int inorder[] = { 4 , 2 , 1 , 5 , 3 };
+	// int postorder[] = { 4 , 2 , 5 , 3 , 1 };
 
 	// root2 = buildTreeInAndPreorder(preorder, inorder , 0 , 4  );
 	// root3 = buildTreeInAndPostorder(postorder, inorder , 0 , 4   );
@@ -661,7 +759,7 @@ int main(int argc, char const * argv[]) {
 	root4->left->left->left->right = new node(860);
 
 	printLevelOrder(root4);
-	// cout << endl;
+	cout << endl;
 	// cout << sumAtKthLevel(root4 , 2) << endl;
 
 	// cout << totalNodes(root4) << endl;
@@ -670,7 +768,7 @@ int main(int argc, char const * argv[]) {
 	// cout << "height " << height(root4) << endl;
 
 	// cout << "diaMeter " << diaMeter(root4) << endl;
-	int h = 0;
+	// int h = 0;
 	// cout << "diaMeter opt " << diaMeterOptimized(root4, &h) << endl;
 
 	// sumReplace(root4);
@@ -682,7 +780,7 @@ int main(int argc, char const * argv[]) {
 	// cout << "isHeightBalanced " << isHeightBalanced(root4, &h)  << endl;
 
 	// printRightView(root4);
-	cout << endl;
+	// cout << endl;
 
 	// printLeftView(root4);
 	// cout << endl;
@@ -702,49 +800,49 @@ int main(int argc, char const * argv[]) {
 
 	// cout << "max sum path :" << maxPath(root1) << endl;
 
-	node* root5 = NULL;
-	root5 = createBST( root5 , 5 );
-	createBST( root5 , 1 );
-	createBST( root5 , 4 );
-	createBST( root5 , 3 );
-	createBST( root5 , 70 );
-	createBST( root5 , 56 );
-	createBST( root5 , 40 );
-	createBST( root5 , 60 );
-	createBST( root5 , 90 );
+	// node* root5 = NULL;
+	// root5 = createBST( root5 , 5 );
+	// createBST( root5 , 1 );
+	// createBST( root5 , 4 );
+	// createBST( root5 , 3 );
+	// createBST( root5 , 70 );
+	// createBST( root5 , 56 );
+	// createBST( root5 , 40 );
+	// createBST( root5 , 60 );
+	// createBST( root5 , 90 );
 
-	createBST( root5 , 30 );
-	createBST( root5 , 45 );
-	createBST( root5 , 58 );
-	createBST( root5 , 62 );
-	createBST( root5 , 59 );
+	// createBST( root5 , 30 );
+	// createBST( root5 , 45 );
+	// createBST( root5 , 58 );
+	// createBST( root5 , 62 );
+	// createBST( root5 , 59 );
 
-	printLevelOrder(root5);
+	// printLevelOrder(root5);
 	//         5
 	//	  1           70
 	//       4    56     90
 	//     3    20  40
 	//
-	cout << endl;
-	inorderr(root5);
+	// cout << endl;
+	// inorderr(root5);
 
-	cout << endl;
+	// cout << endl;
 
 	// node * root_ = deleteFromBST(root5 , 56);
 	// cout << endl;
 	// inorderr(root_);
 	// cout << endl;
 
-	int balancedTree[] = { 10 , 20 , 30 , 40 , 50 , 60};
-	node * root6 = NULL;
-	root6  = buildBalancedBST(balancedTree, 0 , 5 ,  root6 );
+	// int balancedTree[] = { 10 , 20 , 30 , 40 , 50 , 60};
+	// node * root6 = NULL;
+	// root6  = buildBalancedBST(balancedTree, 0 , 5 ,  root6 );
 	//  this does not work !
 	// buildBalancedBST2(balancedTree, 0 , 5 ,  root6 );
 	// inorderr(root6);
 
 	// cout << endl;
-	printLevelOrder(root6);
-	cout << endl;
+	// printLevelOrder(root6);
+	// cout << endl;
 
 
 	// catalan numbers : 1 1 2 5 14 42 132 429 ...
@@ -752,8 +850,9 @@ int main(int argc, char const * argv[]) {
 	// for (int i = 0; i <= 10; ++i)
 	// 	cout << catalan(i) << " ";
 
-
-
+	flattenBTree_Helper(root4);
+	cout << "\n";
+	inorderr(root4);
 
 	return 0;
 }

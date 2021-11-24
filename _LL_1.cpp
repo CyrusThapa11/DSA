@@ -5,12 +5,10 @@ class node {
 public:
 	int data;
 	node* next;
-
 	node( int d ) {
 		this->data = d;
 		next = NULL;
 	}
-
 };
 
 void printLL(node*head) {
@@ -83,7 +81,6 @@ void deleteNode(node*&head, int val) {
 		return;
 	}
 
-
 	node*temp = head;
 
 	bool ispresent = 0;
@@ -125,6 +122,8 @@ node* reverseIterative(node*head) {
 }
 
 node* reverseRecursive(node* &head) {
+
+	//pornhub.com
 
 	if (head == NULL || head->next == NULL)
 		return head;
@@ -196,6 +195,7 @@ void detectCycle(node*head) {
 			break;
 		}
 	}
+
 	if (cycle)cout << "yes cycle is present " << endl;
 	else cout << "no cycle is not present " << endl;
 
@@ -206,7 +206,7 @@ void removeCycle(node*&head) {
 
 	node *slow  , *fast ;
 	fast = head ;
-	slow = head;
+	slow = head ;
 
 	int ispresent = 0;
 
@@ -230,7 +230,7 @@ void removeCycle(node*&head) {
 	// } while (fast != slow);
 
 	// we can use fast here but then
-	// we have to do slow->next = null in line 229
+	// we have to do slow->next = null in line 240
 	slow = head;
 
 	while (slow->next != fast->next) {
@@ -397,81 +397,82 @@ int main(int argc, char const *argv[]) {
 	insertAtHead(head1, 77);
 	insertAtHead(head1, 88);
 
-
-	insertAtTail(head2, 101);
-	insertAtTail(head2, 202);
-	insertAtTail(head2, 303);
-	insertAtTail(head2, 404);
-	insertAtTail(head2, 505);
-	insertAtTail(head2, 606);
-	insertAtHead(head2, 707);
-	insertAtHead(head2, 808);
-
-	printLL(head1);
-	search(head1, 22);
-	deleteNode(head1, 11);
 	printLL(head1);
 
-	head1 = reverseIterative(head1);
-	printLL(head1);
+	// insertAtTail(head2, 101);
+	// insertAtTail(head2, 202);
+	// insertAtTail(head2, 303);
+	// insertAtTail(head2, 404);
+	// insertAtTail(head2, 505);
+	// insertAtTail(head2, 606);
+	// insertAtHead(head2, 707);
+	// insertAtHead(head2, 808);
 
-	deleteNode(head1, 22);
-	head1 = reverseRecursive(head1);
-	printLL(head1);
-
-	head1 = reverseRecursiveK(head1, 4);
-	printLL(head1);
-
-	createCycle(head1, 4);
-	detectCycle(head1);
 	// printLL(head1);
-	removeCycle(head1);
+	// search(head1, 22);
+	// deleteNode(head1, 11);
 	// printLL(head1);
-	detectCycle(head1);
 
+	// head1 = reverseIterative(head1);
+	// printLL(head1);
+
+	// deleteNode(head1, 22);
+	// head1 = reverseRecursive(head1);
+	// printLL(head1);
+
+	head1 = reverseRecursiveK(head1, 3);
 	printLL(head1);
 
-	node*head3 = intersectLL(head1, head2, 5);
+	// createCycle(head1, 4);
+	// detectCycle(head1);
+	// // printLL(head1);
+	// removeCycle(head1);
+	// // printLL(head1);
+	// detectCycle(head1);
 
-	cout << findIntersection(head1, head2) << endl;
+	// printLL(head1);
 
+	// node*head3 = intersectLL(head1, head2, 5);
 
-	node*head4 = NULL;
-	node*head5 = NULL;
-
-	insertAtTail(head4, 111);
-	insertAtTail(head4, 202);
-	insertAtTail(head4, 333);
-	insertAtTail(head4, 404);
-	insertAtTail(head4, 555);
-	insertAtTail(head4, 606);
+	// cout << findIntersection(head1, head2) << endl;
 
 
-	insertAtTail(head5, 101);
-	insertAtTail(head5, 202);
-	insertAtTail(head5, 303);
-	insertAtTail(head5, 404);
-	insertAtTail(head5, 505);
-	insertAtTail(head5, 606);
+	// node*head4 = NULL;
+	// node*head5 = NULL;
 
-	printLL(head4);
-	printLL(head5);
-	node*head6 = mergeIterative(head4, head5);
-	printLL(head6);
-	cout << endl;
+	// insertAtTail(head4, 111);
+	// insertAtTail(head4, 202);
+	// insertAtTail(head4, 333);
+	// insertAtTail(head4, 404);
+	// insertAtTail(head4, 555);
+	// insertAtTail(head4, 606);
 
-	node*head7 = NULL;
-	insertAtTail(head7, 101);
-	insertAtTail(head7, 202);
-	insertAtTail(head7, 303);
-	insertAtTail(head7, 404);
-	insertAtTail(head7, 505);
-	insertAtTail(head7, 606);
-	insertAtTail(head7, 607);
-	printLL(head7);
-	evenAfterOddLL(head7);
-	cout << endl;
-	printLL(head7);
+
+	// insertAtTail(head5, 101);
+	// insertAtTail(head5, 202);
+	// insertAtTail(head5, 303);
+	// insertAtTail(head5, 404);
+	// insertAtTail(head5, 505);
+	// insertAtTail(head5, 606);
+
+	// printLL(head4);
+	// printLL(head5);
+	// node*head6 = mergeIterative(head4, head5);
+	// printLL(head6);
+	// cout << endl;
+
+	// node*head7 = NULL;
+	// insertAtTail(head7, 101);
+	// insertAtTail(head7, 202);
+	// insertAtTail(head7, 303);
+	// insertAtTail(head7, 404);
+	// insertAtTail(head7, 505);
+	// insertAtTail(head7, 606);
+	// insertAtTail(head7, 607);
+	// printLL(head7);
+	// evenAfterOddLL(head7);
+	// cout << endl;
+	// printLL(head7);
 
 	return 0;
 }

@@ -1,21 +1,7 @@
-
-front->data 12
-12
-front->data 12
-front->data 121
-121
- popping 10
- popping 20
- popping 30
- popping 400
-300
-40
-40
- popping 400
-300
-300
-
-30 20 10 40 50 
-20 10 40 3
-
- max len : 3
+100 
+120 320 
+500 700 
+39 
+99 
+found
+4

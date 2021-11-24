@@ -3,9 +3,7 @@ using namespace std;
 
 #define debug(x) cout<< #x << " "<<x<<endl;
 
-
 class Stack {
-
 	int n = 50;
 	int currpos = -1;
 	int *arr;
@@ -45,7 +43,6 @@ public:
 	~Stack() {
 		delete arr;
 	}
-
 };
 
 void reverseSentence(string sent) {
@@ -193,7 +190,7 @@ int precedencee(char opr) {
 	return -1;
 }
 
-string  infixToPostFix(string expressionn2) {
+string infixToPostFix(string expressionn2) {
 
 	stack<char>stack3;
 	string result;
@@ -227,7 +224,7 @@ string  infixToPostFix(string expressionn2) {
 				result += stack3.top();
 				stack3.pop();
 			}
-						stack3.push(expressionn2[i]);
+			stack3.push(expressionn2[i]);
 		}
 	}
 
@@ -239,7 +236,7 @@ string  infixToPostFix(string expressionn2) {
 	return result;
 }
 
-string infixToPreFix(			string expressionn2) {
+string infixToPreFix(string expressionn2) {
 
 	reverse(expressionn2.begin(), expressionn2.end());
 	int len = expressionn2.length();
@@ -291,7 +288,8 @@ string infixToPreFix(			string expressionn2) {
 	return result;
 }
 
-
+// implementing stack by 2 queue :
+// pop & top easy
 class stackQueue1
 {
 	int N;
@@ -299,14 +297,14 @@ class stackQueue1
 	queue<int>q2;
 
 public:
-	stackQueue1(){
+	stackQueue1() {
 		N = 0;
 	}
 
-	void push(int val){
+	void push(int val) {
 		q2.push(val);
 
-		while(!q1.empty()){
+		while (!q1.empty()) {
 			q2.push(q1.front());
 			q1.pop();
 		}
@@ -320,22 +318,24 @@ public:
 		return;
 	}
 
-	void pop(){
+	void pop() {
 		q1.pop();
 		N--;
 	}
 
-	int top(){
+	int top() {
 		return q1.front();
 	}
 
-	int size(){
+	int size() {
 		return N;
 	}
 
 };
 
 
+// implementing stack by 2 queue :
+// push easy
 class stackQueue2
 {
 	int N;
@@ -343,22 +343,22 @@ class stackQueue2
 	queue<int>q2;
 
 public:
-	stackQueue2(){
+	stackQueue2() {
 		N = 0;
 	}
 
-	void push(int val){
+	void push(int val) {
 		q1.push(val);
 		N++;
 		return;
 	}
 
-	void pop(){
+	void pop() {
 
-		if(q1.empty())return;
+		if (q1.empty())return;
 
-		int currSize= q1.size();
-		while(currSize > 1){
+		int currSize = q1.size();
+		while (currSize > 1) {
 			q2.push(q1.front());
 			q1.pop();
 			currSize--;
@@ -366,29 +366,28 @@ public:
 
 		q1.pop();
 		N--;
-		while(!q2.empty()){
+		while (!q2.empty()) {
 			q1.push(q2.front());
 			q2.pop();
 		}
 
-	return;
+		return;
 	}
 
-	int top(){
-		int currSize= q1.size();
-		while(currSize > 1){
+	int top() {
+		int currSize = q1.size();
+		while (currSize > 1) {
 			q2.push(q1.front());
 			q1.pop();
 			currSize--;
 		}
 
-		
-
 		int elem = q1.front();
-		 // q1.push(elem);
+		// q1.push(elem);
+		q1.pop();
 		q2.push(elem);
 		N--;
-		while(!q2.empty()){
+		while (!q2.empty()) {
 			q1.push(q2.front());
 			q2.pop();
 		}
@@ -396,7 +395,7 @@ public:
 		return elem;
 	}
 
-	int size(){
+	int size() {
 		return N;
 	}
 
@@ -445,9 +444,9 @@ int main(int argc, char const *argv[]) {
 	stackq1.push(301);
 	stackq1.push(401);
 
-	cout<<stackq1.top()<<endl;
+	cout << stackq1.top() << endl;
 	stackq1.pop();
-	cout<<stackq1.top()<<endl;
+	cout << stackq1.top() << endl;
 
 
 	return 0;

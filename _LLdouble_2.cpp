@@ -13,7 +13,6 @@ public:
 		next = NULL;
 		previous = NULL;
 	}
-
 };
 
 void printLL(node*head) {

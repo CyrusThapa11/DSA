@@ -1,0 +1,80 @@
+#include <iostream>
+#include <bits/stdc++.h>
+using namespace std;
+
+// bool prime_(int num){
+//     int ans = 0;
+//     for(int i = 2 ;i*i <= num ;i++){
+//         if(num%i == 0)return 0;
+//     }
+// return 1;
+// }
+// 7 -> 4
+// op ->
+// void findFactors(int num){
+
+//     stack<int>primeFacts;
+
+//     for(int i =1 ; i <= num ; i++){
+//         if(  num%i == 0 &&  prime_(i)  ){
+//             primeFacts.push(i);
+//         }
+//     }
+
+//     cout<<"prime facts : "<< endl;
+//     while(!primeFacts.empty()){
+//         cout<<primeFacts.top()<<" " ;
+//         primeFacts.pop();
+//     }
+// return;
+// }
+
+
+int main()
+{
+    int n;cin>>n;
+    
+    //findFactors(n);
+    
+    stack<int>stack_1,stack_2 , stack_3;
+    for (int i = 0; i < n; i++) {
+        stack_1.push(i+100);
+    }
+    
+    cout<<"contents of stack :"<<endl;
+    int i = 0;
+    while(!stack_1.empty()){
+        cout<<stack_1.top()<<" " ;
+        stack_1.pop();
+    }
+    for (int i = 0; i < n; i++) {
+        stack_1.push(i+100);
+    }
+    
+    int siz = n/2;
+    while( stack_1.size()>siz ){
+        stack_2.push(stack_1.top()) ;
+        stack_1.pop();
+    }
+    
+    while( !stack_2.empty()){
+        stack_3.push(stack_2.top()) ;
+        stack_2.pop();
+    }
+    
+    cout<<"contents of 2 stack "<<endl;
+    while(!stack_1.empty()){
+        cout<<stack_1.top()<< " ";
+        stack_1.pop();
+    }
+    cout<<"contents of 3 stack "<<endl;
+    
+    while(!stack_3.empty()){
+        cout<<stack_3.top() << " " ;
+        stack_3.pop();
+    }
+    
+
+
+    return 0;
+}
